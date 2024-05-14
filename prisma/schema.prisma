@@ -12,3 +12,51 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
+model Farmer {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  firstname    String
+  middlename   String
+  lastname     String
+  birthdate    DateTime
+  gender       String
+  municipality String
+  baranggay    String
+  sitio        String
+  phoneNumber  String
+  geographical Geographical[]
+  production   Production[]
+}
+
+model Geographical {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  farmLocation String
+  farmArea     Float
+  farmCategory String
+  farmerId     String @db.ObjectId
+  Farmer       Farmer @relation(fields: [farmerId], references: [id], onDelete: Cascade)
+}
+
+model Production {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  datePlanted DateTime
+  cropPlanted String
+  areaPlanted Float
+  existence   String
+  dateHarvest DateTime?
+  status      String
+  harvests    Harvest[]
+  farmerId    String    @db.ObjectId
+  farmer      Farmer    @relation(fields: [farmerId], references: [id], onDelete: Cascade)
+}
+
+model Harvest {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  productionId String     @db.ObjectId
+  date         DateTime
+  quantity     Float
+  Production   Production @relation(fields: [productionId], references: [id], onDelete: Cascade)
+}
