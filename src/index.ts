@@ -5,6 +5,7 @@ import cors from 'cors'
 import { farmerRouter } from './farmer/farmer.router'
 import { geographicalRouter } from './geographical/geographical.router'
 import { productionRouter } from './production/production.router'
+import { harvestRouter } from './harvest/harvest.router'
 
 dotenv.config()
 
@@ -20,6 +21,7 @@ app.use(express.json())
 app.use('/api/farmers', farmerRouter)
 app.use('/api/geographical', geographicalRouter)
 app.use('/api/production', productionRouter)
+app.use('/api/harvest', harvestRouter)
 
 app.listen(PORT, () => {
   console.log(`listening on PORT: http://localhost:${PORT}`)
