@@ -1,6 +1,6 @@
 import { prisma } from '../utils/db.server'
 
-type Farmer = {
+export type Farmer = {
   createdAt: Date
   firstname: string
   middlename: string
@@ -55,14 +55,14 @@ export const createFarmer = async (
     phoneNumber,
   } = farmer
 
-  const birthdateISO = new Date(birthdate).toISOString()
+  // const birthdateISO = new Date(birthdate).toISOString()
 
   return prisma.farmer.create({
     data: {
       firstname,
       middlename,
       lastname,
-      birthdate: birthdateISO,
+      birthdate,
       gender,
       municipality,
       baranggay,
@@ -101,7 +101,7 @@ export const updateFarmer = async (
     phoneNumber,
   } = farmer
 
-  const birthdateISO = new Date(birthdate).toISOString()
+  // const birthdateISO = new Date(birthdate).toISOString()
 
   return prisma.farmer.update({
     where: {
@@ -111,7 +111,7 @@ export const updateFarmer = async (
       firstname,
       middlename,
       lastname,
-      birthdate: birthdateISO,
+      birthdate,
       gender,
       municipality,
       baranggay,

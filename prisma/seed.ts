@@ -33,23 +33,23 @@ type Harvest = {
 }
 
 async function seed() {
-  await Promise.all(
-    getFarmers().map((farmer) => {
-      return prisma.farmer.create({
-        data: {
-          firstname: farmer.firstname,
-          middlename: farmer.middlename,
-          lastname: farmer.lastname,
-          birthdate: farmer.birthdate,
-          gender: farmer.gender,
-          municipality: farmer.municipality,
-          baranggay: farmer.baranggay,
-          sitio: farmer.sitio,
-          phoneNumber: farmer.phoneNumber,
-        },
-      })
-    }),
-  )
+  // await Promise.all(
+  //   getFarmers().map((farmer) => {
+  //     return prisma.farmer.create({
+  //       data: {
+  //         firstname: farmer.firstname,
+  //         middlename: farmer.middlename,
+  //         lastname: farmer.lastname,
+  //         birthdate: farmer.birthdate,
+  //         gender: farmer.gender,
+  //         municipality: farmer.municipality,
+  //         baranggay: farmer.baranggay,
+  //         sitio: farmer.sitio,
+  //         phoneNumber: farmer.phoneNumber,
+  //       },
+  //     })
+  //   }),
+  // )
 
   const farmer = await prisma.farmer.findFirst({
     where: {
@@ -57,15 +57,59 @@ async function seed() {
     },
   })
 
+  // await Promise.all(
+  //   getGeographical().map((geographical) => {
+  //     const { farmLocation, farmArea, farmCategory } = geographical
+  //     return prisma.geographical.create({
+  //       data: {
+  //         farmLocation,
+  //         farmArea,
+  //         farmCategory,
+  //         farmerId: farmer.id,
+  //       },
+  //     })
+  //   }),
+  // )
+
   await Promise.all(
-    getGeographical().map((geographical) => {
-      const { farmLocation, farmArea, farmCategory } = geographical
-      return prisma.geographical.create({
+    getProduction().map((product) => {
+      const {
+        datePlanted,
+        cropPlanted,
+        areaPlanted,
+        existence,
+        dateHarvest,
+        status,
+      } = product
+      return prisma.production.create({
         data: {
-          farmLocation,
-          farmArea,
-          farmCategory,
+          datePlanted,
+          cropPlanted,
+          areaPlanted,
+          existence,
+          dateHarvest,
+          status,
           farmerId: farmer.id,
+        },
+      })
+    }),
+  )
+
+  const production = await prisma.production.findFirst({
+    where: {
+      farmerId: '6642ef86c5f511a619f70b41',
+    },
+  })
+
+  await Promise.all(
+    getHarvest().map((harvest) => {
+      const { date, quantity } = harvest
+
+      return prisma.harvest.create({
+        data: {
+          date,
+          quantity,
+          productionId: production.id,
         },
       })
     }),

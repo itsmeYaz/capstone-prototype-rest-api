@@ -37,7 +37,7 @@ model Geographical {
   farmArea     Float
   farmCategory String
   farmerId     String @db.ObjectId
-  Farmer       Farmer @relation(fields: [farmerId], references: [id], onDelete: Cascade)
+  farmer       Farmer @relation(fields: [farmerId], references: [id], onDelete: Cascade)
 }
 
 model Production {
