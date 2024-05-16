@@ -60,17 +60,9 @@ export const getSingleProduction = async (
     where: {
       id,
     },
-    select: {
-      id: true,
-      datePlanted: true,
-      cropPlanted: true,
-      areaPlanted: true,
-      existence: true,
-      dateHarvest: true,
-      status: true,
-      farmer: {
-        select: farmerSelectedAttribute,
-      },
+    include: {
+      farmer: true,
+      harvests: true,
     },
   })
 }

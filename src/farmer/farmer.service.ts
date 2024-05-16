@@ -13,6 +13,28 @@ export type Farmer = {
   phoneNumber: string
 }
 
+type Geographical = {
+  id: string
+  farmLocation: string
+  farmArea: number
+  farmCategory: string
+}
+
+type Production = {
+  id: string
+  datePlanted: Date
+  cropPlanted: string
+  areaPlanted: number
+  existence: string
+  dateHarvest: Date
+  status: string
+}
+
+type FarmerWithGeographicalAndProduction = {
+  geographical: Geographical
+  production: Production
+}
+
 export const listFarmers = async (): Promise<Farmer[]> => {
   return prisma.farmer.findMany({
     select: {
@@ -36,7 +58,10 @@ export const getFarmer = async (id: string): Promise<Farmer | null> => {
     where: {
       id: id,
     },
-    //TODO: you can add here too select: {}
+    include: {
+      geographical: true, // Include Geographical data
+      production: true, // Include Production data
+    },
   })
 }
 

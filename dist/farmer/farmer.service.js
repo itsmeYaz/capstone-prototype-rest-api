@@ -34,7 +34,10 @@ const getFarmer = (id) => __awaiter(void 0, void 0, void 0, function* () {
         where: {
             id: id,
         },
-        //TODO: you can add here too select: {}
+        include: {
+            geographical: true, // Include Geographical data
+            production: true, // Include Production data
+        },
     });
 });
 exports.getFarmer = getFarmer;

@@ -46,17 +46,9 @@ const getSingleProduction = (id) => __awaiter(void 0, void 0, void 0, function* 
         where: {
             id,
         },
-        select: {
-            id: true,
-            datePlanted: true,
-            cropPlanted: true,
-            areaPlanted: true,
-            existence: true,
-            dateHarvest: true,
-            status: true,
-            farmer: {
-                select: farmerSelectedAttribute,
-            },
+        include: {
+            farmer: true,
+            harvests: true,
         },
     });
 });
