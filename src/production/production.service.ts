@@ -1,7 +1,7 @@
 import { prisma } from '../utils/db.server'
 import type { Farmer } from '../farmer/farmer.service'
 
-type ProductionWithFarmerID = {
+export type ProductionWithFarmerID = {
   id: string
   datePlanted: Date
   cropPlanted: string

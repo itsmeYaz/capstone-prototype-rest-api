@@ -6,6 +6,7 @@ import { farmerRouter } from './farmer/farmer.router'
 import { geographicalRouter } from './geographical/geographical.router'
 import { productionRouter } from './production/production.router'
 import { harvestRouter } from './harvest/harvest.router'
+import { harvestAnalyticsRouter } from './analytics/harvest.analytics.router'
 
 dotenv.config()
 
@@ -22,6 +23,7 @@ app.use('/api/farmers', farmerRouter)
 app.use('/api/geographical', geographicalRouter)
 app.use('/api/production', productionRouter)
 app.use('/api/harvest', harvestRouter)
+app.use('/api/analytics/', harvestAnalyticsRouter)
 
 app.listen(PORT, () => {
   console.log(`listening on PORT: http://localhost:${PORT}`)

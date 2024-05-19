@@ -1,6 +1,6 @@
 import { prisma } from '../utils/db.server'
 
-type HarvestWithProductionID = {
+export type HarvestWithProductionID = {
   id: string
   date: Date
   quantity: number

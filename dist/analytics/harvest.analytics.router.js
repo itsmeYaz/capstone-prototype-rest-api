@@ -22,33 +22,30 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv = __importStar(require("dotenv"));
+exports.harvestAnalyticsRouter = void 0;
 const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
-const farmer_router_1 = require("./farmer/farmer.router");
-const geographical_router_1 = require("./geographical/geographical.router");
-const production_router_1 = require("./production/production.router");
-const harvest_router_1 = require("./harvest/harvest.router");
-const harvest_analytics_router_1 = require("./analytics/harvest.analytics.router");
-dotenv.config();
-if (!process.env.PORT) {
-    process.exit(1);
-}
-const PORT = parseInt(process.env.PORT, 10) || 3000;
-const app = (0, express_1.default)();
-app.use((0, cors_1.default)());
-app.use(express_1.default.json());
-app.use('/api/farmers', farmer_router_1.farmerRouter);
-app.use('/api/geographical', geographical_router_1.geographicalRouter);
-app.use('/api/production', production_router_1.productionRouter);
-app.use('/api/harvest', harvest_router_1.harvestRouter);
-app.use('/api/analytics/', harvest_analytics_router_1.harvestAnalyticsRouter);
-app.listen(PORT, () => {
-    console.log(`listening on PORT: http://localhost:${PORT}`);
-});
-exports.default = app;
-//# sourceMappingURL=index.js.map
+const HarvestAnalytics = __importStar(require("../analytics/harvest.analytics.service"));
+exports.harvestAnalyticsRouter = express_1.default.Router();
+exports.harvestAnalyticsRouter.get('/yield-trends-by-crop', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const yieldTrends = yield HarvestAnalytics.getYieldTrendsByCrop();
+        return response.status(200).json(yieldTrends);
+    }
+    catch (err) {
+        return response.status(500).json(err.message);
+    }
+}));
+//# sourceMappingURL=harvest.analytics.router.js.map
