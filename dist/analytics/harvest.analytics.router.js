@@ -48,4 +48,42 @@ exports.harvestAnalyticsRouter.get('/yield-trends-by-crop', (request, response) 
         return response.status(500).json(err.message);
     }
 }));
+exports.harvestAnalyticsRouter.get('/total-harvest/:municipality', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const municipality = req.params.municipality;
+        const result = yield HarvestAnalytics.getTotalHarvestByCrops(municipality);
+        res.json(result);
+    }
+    catch (error) {
+        res.status(500).send(error.message);
+    }
+}));
+exports.harvestAnalyticsRouter.get('/total-harvest', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const cropPlanted = req.query.cropPlanted;
+    const municipality = req.query.municipality;
+    const startMonth = req.query.startMonth;
+    const endMonth = req.query.endMonth || startMonth;
+    const year = req.query.year;
+    if (!cropPlanted || !municipality || !startMonth || !year) {
+        return res
+            .status(400)
+            .send('Missing required query parameters: cropPlanted, municipality, startMonth, or year');
+    }
+    try {
+        const data = yield HarvestAnalytics.getTotalHarvestByCrop(cropPlanted, municipality, startMonth, endMonth, year);
+        res.json(data);
+    }
+    catch (error) {
+        res.status(500).send(error.message);
+    }
+}));
+exports.harvestAnalyticsRouter.get('/municipalities-and-crops', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = yield HarvestAnalytics.getAllMunicipalitiesAndCrops();
+        res.json(data);
+    }
+    catch (error) {
+        res.status(500).send(error.message);
+    }
+}));
 //# sourceMappingURL=harvest.analytics.router.js.map
